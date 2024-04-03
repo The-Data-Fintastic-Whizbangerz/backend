@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Credit Score Prediction</title>
+    <style>
+        form{text-align: center}
+    </style>
+</head>
+<body>
+    <br></br>
+    <br></br>
+    <center><h1>Credit Score</h1></center>
+
+    <a></a>
+    
+<form action="/predict" method="post">
+<br></br>
+
+<label for="Purpose">What is the purpose of the loan?</label>
+<select name="Purpose" id="Purpose">
+    <option value="radio_television">Radio/Television</option>
+    <option value="car_new">Car(new)</option>
+    <option value="car_used">Car(used)</option>
+    <option value="furniture_equipment">Furniture equipment</option>
+    <option value="business">Business</option>
+    <option value="education">Education</option>
+    <option value="Repairs">Repairs</option>
+    <option value="domestic_appliances">Domestic appliances</option>
+    <option value="retraining">Retraining</option>
+    <option value="others">Others</option>
+</select>
+
+<br></br>
+<label for="Occupation">What is your occupation?</label>
+<select name="Occupation" id="Occupation">
+    <option value="3">Skilled Employee/official</option>
+    <option value="2">Unskilled resident</option>
+    <option value="4">Management/selfemployed/highly qualified employee</option>
+    <option value="1">Unemployed/unskilled/nonresident</option>
+</select>
+<br></br>
+<label for="Employment_length">Employement Length</label>
+<select name="Employment_length" id="Employment_length">
+    <option value="1">Less than 1 year</option>
+    <option value="2">1-4 years</option>
+    <option value="3">4-7 years</option>
+    <option value="4">More than 7 years</option>
+</select>
+
+<br></br>
+<label for="Other_debtors_or_guarantors">Who are the other applicant?</label>
+<select name="Other_debtors_or_guarantors", id="Other_debtors_or_guarantors">
+    <option value="co_applicant">Co-applicant</option>
+    <option value="guarantor">Guarantor</option>
+    <option value="none">None</option>
+</select>
+
+<br></br>
+<label for="Housing">What type resident is yours?</label>
+<select name="Housing", id="Housing">
+    <option value="own">Own</option>
+    <option value="rent">Rent</option>
+    <option value="for_free">For free</option>
+</select>
+
+<br></br>
+<label for="Residence_length">How long have you been living in this house?</label>
+<select name="Residence_length" id="Residence_length">
+    <option value="one_year_or_less">One year or less</option>
+    <option value="two_years"> Two years</option>
+    <option value="three_years">Three years</option>
+    <option value="More_than_4_years">More than four years</option>
+</select>
+
+<br></br>
+<label for="Age_group">What is you age group?</label>
+<select name="Age_group" id="Age_group">
+    <option value="11">Between 18 and 25</option>
+    <option value="10">Between 26 and 30</option>
+    <option value="9">Between 31 and 35</option>
+    <option value="8">Between 36 and 40</option>
+    <option value="7">Between 41 and 45</option>
+    <option value="6">Between 46 and 50</option>
+    <option value="5">Between 51 and 55</option>
+    <option value="4">Between 56 and 60</option>
+    <option value="3">Between 61 and 65</option>
+    <option value="2">Between 66 and 70</option>
+    <option value="1">Between 71 and 75</option>
+</select>
+
+<br></br>
+<label for="Sex">What is your gender?</label>
+<select name="Sex" id="Sex">
+    <option value="female">Female</option>
+    <option value="male">Male</option>
+</select>
+
+<br></br>
+<label for="Number_of_dependents">Number of children</label>
+<select name="Number_of_dependents" id="Number_of_dependents">
+    <option value="2">1</option>
+    <option value="1">2 or more</option>
+</select>
+<br></br>
+<br></br>
+<input id="submit" type="submit" value="Click here to get Credit Score", class="btn btn-secondary"></input>
+<br></br>
+<h1 id="predictionResult">{{prediction_text}}</h1>
+
+
+</form>
+<center> 
+<button id="clearButton">Restart</button>
+
+    <script>
+        document.getElementById("clearButton").addEventListener("click", function() {
+            // Clear the prediction result area
+            document.getElementById("predictionResult").innerText = "";
+        });
+    </script>
+</center>
+
+</body>
+
+
+
+</html>
