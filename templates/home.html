@@ -15,7 +15,43 @@
     
 <form action="/predict" method="post">
 <br></br>
+<label for="Credit_amount_group">How much would you like to borrow?</label>
+<select name="Credit_amount_group" id="Credit_amount_group">
+     <option value="10">Below 2000</option>
+     <option value="9">Between 2001 and 4000</option>
+     <option value="8">Between 4001 and 6000</option>
+     <option value="7">Between 6001 and 8000</option> 
+     <option value="6">Between 8001 and 10000</option>   
+     <option value="5">Between 10001 and 12000</option>  
+     <option value="4">Between 12001 and 14000</option> 
+     <option value="3">Between 14001 and 16000</option> 
+     <option value="2">Between 16001 and 18000</option>
+     <option value="1">Above 18001</option>
+</select>
 
+<br></br>
+<label for="duration_group">Duration to repay the loan(in months)?</label>
+<select name="duration_group" id="duration_group">
+     <option value="16">Below 5</option>
+     <option value="15">Between 6 and 10</option>
+     <option value="14">Between 11 and 15</option>
+     <option value="13">Between 16 and 20</option> 
+     <option value="12">Between 21 and 25</option>   
+     <option value="11">Between 26 and 30</option>  
+     <option value="10">Between 31 and 35</option> 
+     <option value="9">Between 36 and 40</option> 
+     <option value="8">Between 41 and 45</option>
+     <option value="7">Between 46 and 50</option>
+     <option value="6">Between 51 and 55</option>
+     <option value="5">Between 56 and 60</option>
+     <option value="4">Between 61 and 65</option>
+     <option value="3">Between 66 and 70</option>
+     <option value="2">Between 71 and 75</option>
+     <option value="1">76 and more</option>
+
+</select>
+
+<br></br>
 <label for="Purpose">What is the purpose of the loan?</label>
 <select name="Purpose" id="Purpose">
     <option value="radio_television">Radio/Television</option>
@@ -28,6 +64,21 @@
     <option value="domestic_appliances">Domestic appliances</option>
     <option value="retraining">Retraining</option>
     <option value="others">Others</option>
+</select>
+
+<br></br>
+<label for="disposible_income_group">What is your income after expenses?</label>
+<select name="disposible_income_group" id="disposible_income_group">
+     <option value="1">Below 2000</option>
+     <option value="2">Between 2001 and 4000</option>
+     <option value="3">Between 4001 and 6000</option>
+     <option value="4">Between 6001 and 8000</option> 
+     <option value="5">Between 8001 and 10000</option>   
+     <option value="6">Between 10001 and 12000</option>  
+     <option value="7">Between 12001 and 14000</option> 
+     <option value="8">Between 14001 and 16000</option> 
+     <option value="9">Between 16001 and 18000</option>
+     <option value="10">Above 18001</option>
 </select>
 
 <br></br>
@@ -89,13 +140,6 @@
 </select>
 
 <br></br>
-<label for="Sex">What is your gender?</label>
-<select name="Sex" id="Sex">
-    <option value="female">Female</option>
-    <option value="male">Male</option>
-</select>
-
-<br></br>
 <label for="Number_of_dependents">Number of children</label>
 <select name="Number_of_dependents" id="Number_of_dependents">
     <option value="2">1</option>
@@ -108,7 +152,41 @@
 <h1 id="predictionResult">{{prediction_text}}</h1>
 
 
+<!-- Include the gauge graph here -->
+<div>
+    <canvas id="gaugeCanvas" width="400" height="400"></canvas>
+</div>
+
 </form>
+
+<!-- Include JavaScript code for updating the gauge graph -->
+<script>
+    // Get the credit score from the prediction result
+    var creditScore = {{ prediction_text}};
+
+    // Draw the gauge graph with the credit score
+    var canvas = document.getElementById("gaugeCanvas");
+    var ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Draw the gauge graph here based on the credit score
+    // Include your gauge graph drawing logic here
+    // You can use HTML5 Canvas API or libraries like Chart.js or D3.js
+
+    // Example:
+    ctx.beginPath();
+    ctx.arc(canvas.width / 2, canvas.height / 2, 150, 0, 2 * Math.PI);
+    ctx.fillStyle = "#f0f0f0";
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.arc(canvas.width / 2, canvas.height / 2, 150, -Math.PI / 2, -Math.PI / 2 + (2 * Math.PI * (creditScore / 800)));
+    ctx.lineTo(canvas.width / 2, canvas.height / 2);
+    ctx.fillStyle = "#007bff";
+    ctx.fill();
+</script>
+
+
 <center> 
 <button id="clearButton">Restart</button>
 

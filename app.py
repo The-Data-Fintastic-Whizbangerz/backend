@@ -6,7 +6,7 @@ import pandas as pd
 
 app = Flask(__name__)
 CORS(app)
-model = pickle.load(open("CreditScorePrediction1.pkl", "rb"))
+model = pickle.load(open("creditscore_xgboost.pkl", "rb"))
 
 @app.route("/")
 def home():
@@ -17,15 +17,38 @@ def returnresult():
 	return {'Test':'HelloWorld'}
 
 
-@app.route("/predict", methods=["POST"])
+@app.route("/api/predict", methods=["POST"])
 def predict():
     if request.method == "POST":
         response = json.loads(request.data)
         print('Request:', response)
 
+        creditamount= int(response['creditamount'])
+        duration=int(response['duration'])
         purpose = response['purpose']
         print('Purpose:',purpose)
+        disposible=int(response['disposible'])
+        occupation = int(response['occupation'])       
+        employ_len=int(response['employLength'])
+        guarntor = response['guarantor']
+        house = response['house']
+        res_len = response['residentLength']
+        agegp=int(response['ageGroup'])
+        num_child=int(response['numChild'])
         
+        # creditamount= int(request.form['Credit_amount_group'])
+        # duration=int(request.form['duration_group'])
+        # purpose = request.form['Purpose']
+        # disposible=int(request.form['disposible_income_group'])
+        # occupation = int(request.form['Occupation'])       
+        # employ_len=int(request.form['Employment_length'])
+        # guarntor = request.form['Other_debtors_or_guarantors']
+        # house = request.form['Housing']
+        # res_len = request.form['Residence_length']
+        # agegp=int(request.form['Age_group'])
+        # num_child= int(request.form['Number_of_dependents'])
+
+
         if (purpose=='radio_television'):
             radio_television = 1
             car_new=0
@@ -137,9 +160,7 @@ def predict():
             retraining=0
             others=1
         
-        occupation = int(response['occupation'])       
-        employ_len=int(response['employLength'])
-        guarntor = response['guarantor']
+        
         if (guarntor == 'co_applicant'):
             co_applicant = 1
             guarantor =0
@@ -152,7 +173,8 @@ def predict():
             co_applicant = 0
             guarantor =0
             none = 1
-        house = response['house']
+       
+        
         if (house=='own'):
             own = 1
             rent=0
@@ -166,7 +188,7 @@ def predict():
             rent=0
             for_free=1
 
-        res_len = response['residentLength']
+        
         if (res_len == 'one_year_or_less'):
             one_year_or_less = 1
             two_years =0
@@ -188,25 +210,14 @@ def predict():
             three_years =0
             More_than_4_years =1
         
-        agegp=int(response['ageGroup'])
-        sex=response['sex']
-        if (sex=='female'):
-            female =1
-            male=0
-        else:
-            female=0
-            male=1
         
-        num_child= int(response['numChild'])
-        
-        prediction = model.predict([[
+        prediction = model.predict([[ creditamount, duration,
            radio_television, car_new, car_used, furniture_equipment, business, education, repairs, domestic_appliances, 
-           retraining, others,occupation,employ_len,
+           retraining, others,disposible, occupation,employ_len,
            co_applicant,  guarantor, none,
             own, rent,  for_free,
            one_year_or_less, two_years, three_years,More_than_4_years, 
-           agegp,
-           female, male, num_child 
+           agegp, num_child 
         ]])
 
         output=round(prediction[0],0)
